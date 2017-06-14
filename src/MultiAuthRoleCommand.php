@@ -47,9 +47,9 @@ class MultiAuthRoleCommand extends Command
       ];
 
       protected $seeds = [
-          'DatabaseSeeder.php' => 'DatabaseSeeder.php',
-          'RoleTableSeeder.php' => 'RoleTableSeeder.php',
-          'UserTableSeeder.php' => 'UserTableSeeder.php',
+          'DatabaseSeeder.php' => '/DatabaseSeeder.php',
+          'RoleTableSeeder.php' => '/RoleTableSeeder.php',
+          'UserTableSeeder.php' => '/UserTableSeeder.php',
       ];
 
       protected $models = [
@@ -75,6 +75,8 @@ class MultiAuthRoleCommand extends Command
 
           $this->exportMigrations();
 
+          $this->exportSeeds();
+
           $this->exportModels();
 
           $this->exportControllers();
@@ -84,6 +86,12 @@ class MultiAuthRoleCommand extends Command
               file_put_contents(
                   app_path('Http/Controllers/HomeController.php'),
                   $this->compileControllerStub()
+              );
+
+              file_put_contents(
+                  app_path('Http/Kernel.php'),
+                  file_get_contents(__DIR__.'/stubs/make/routes.stub'),
+                  FILE_APPEND
               );
 
               file_put_contents(
@@ -170,7 +178,7 @@ class MultiAuthRoleCommand extends Command
 
               copy(
                   __DIR__.'/stubs/make/seeds/'.$key,
-                  base_path('database/migrations/'.$value)
+                  base_path('database/seeds/'.$value)
               );
           }
       }
