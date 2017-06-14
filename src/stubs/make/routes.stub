@@ -1,0 +1,42 @@
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+//User
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/list', [
+      'uses'=>'Auth\UserCtrl@index',
+      'as'=>'users.index',
+      'middleware'=>'roles',
+      'roles'=>['Administrator',  'User Manager']
+    ]);
+    Route::get('/{id}', [
+      'uses' => 'Auth\UserCtrl@show',
+      'as' => 'users.show',
+      'middleware'=>'roles',
+      'roles'=>['Administrator',  'User Manager']
+    ]);
+    Route::post('/assign', [
+      'uses'=>'Auth\UserCtrl@AdminAssignRoles',
+      'as'=>'assign',
+      'middleware'=>'roles',
+      'roles'=>['Administrator',  'User Manager']
+    ]);
+});
+
+Route::post('/changepass', [
+  'uses'=>'Auth\UserCtrl@changepass',
+  'as'=>'changepass'
+]);
+
+Route::put('/delete/{id}', [
+  'uses'=>'Auth\UserCtrl@delete',
+  'as'=>'user.delete'
+]);
+
+Route::get('user/help', 'Auth\UserCtrl@help');
+Route::get('rolelist', 'Auth\UserCtrl@role_list');
+Route::get('profile', 'Auth\UserCtrl@profile');
+Route::post('profile', 'Auth\UserCtrl@update_avatar');
+
