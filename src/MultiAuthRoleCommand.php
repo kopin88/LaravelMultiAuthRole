@@ -58,8 +58,8 @@ class MultiAuthRoleCommand extends Command
       ];
 
       protected $controllers = [
-          'Auth/RegisterController.php' => 'Auth/RegisterController.php',
-          'Auth/UserCtrl.pph' => 'Auth/UserCtrl.pph',
+          'Auth/RegisterController.php' => '/Auth/RegisterController.php',
+          'Auth/UserCtrl.php' => '/Auth/UserCtrl.php',
       ];
 
       /**
